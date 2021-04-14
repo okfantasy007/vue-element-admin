@@ -144,6 +144,71 @@ export const constantRouterMap = [
         meta: { title: '奖品兑换明细', icon: 'guide', noCache: true }
       }
     ]
+  },
+  {
+    path: '/fxManagement',
+    component: Layout,
+    redirect: '/fxManagement/overview',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '分销关系管理',
+      icon: 'dashboard',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'overview',
+        component: () => import('@/views/prizeManagement/list/index'),
+        name: 'fxManagementOverview',
+        meta: { title: '概况', icon: 'guide', noCache: true }
+      },
+      {
+        path: 'fxs',
+        component: () => import('@/views/prizeManagement/list/index'),
+        name: 'fxManagementFxs',
+        meta: { title: '分销商管理', icon: 'guide', noCache: true },
+        children: [
+          {
+            path: 'team',
+            component: () => import('@/views/prizeManagement/list/index'),
+            name: 'fxManagementFxsTeam',
+            meta: { title: '分销团队管理', icon: 'guide', noCache: true }
+          },
+          {
+            path: 'order',
+            component: () => import('@/views/prizeManagement/list/index'),
+            name: 'fxManagementFxsOrder',
+            meta: { title: '分销订单管理', icon: 'guide', noCache: true }
+          }
+        ]
+      },
+      {
+        path: 'product',
+        component: () => import('@/views/prizeManagement/list/index'),
+        name: 'fxManagementProduct',
+        meta: { title: '分销商品管理', icon: 'guide', noCache: true }
+      },
+      {
+        path: 'check',
+        component: () => import('@/views/prizeManagement/list/index'),
+        name: 'fxManagementCheck',
+        meta: { title: '审核管理', icon: 'guide', noCache: true },
+        children: [
+          {
+            path: 'zz',
+            component: () => import('@/views/prizeManagement/list/index'),
+            name: 'fxManagementCheckZz',
+            meta: { title: '资质审核', icon: 'guide', noCache: true }
+          },
+          {
+            path: 'tx',
+            component: () => import('@/views/prizeManagement/list/index'),
+            name: 'fxManagementCheckTx',
+            meta: { title: '提现审核', icon: 'guide', noCache: true }
+          }
+        ]
+      }
+    ]
   }
 ]
 
