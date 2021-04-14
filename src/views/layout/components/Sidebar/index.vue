@@ -1,5 +1,6 @@
 <template>
   <el-scrollbar wrap-class="scrollbar-wrapper">
+    <logo :collapse="isCollapse" />
     <el-menu
       :show-timeout="200"
       :default-active="$route.path"
@@ -25,6 +26,18 @@ export default {
       'permission_routers',
       'sidebar'
     ]),
+    activeMenu() {
+      const route = this.$route
+      const { meta, path } = route
+      // if set path, the sidebar will highlight the path you set
+      if (meta.activeMenu) {
+        return meta.activeMenu
+      }
+      return path
+    },
+    showLogo() {
+      return this.$store.state.settings.sidebarLogo
+    },
     isCollapse() {
       return !this.sidebar.opened
     }

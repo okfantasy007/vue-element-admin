@@ -59,10 +59,23 @@ export const constantRouterMap = [
   {
     path: '',
     component: Layout,
-    redirect: 'my_activity',
+    redirect: '',
     children: [
       {
-        path: 'my_activity',
+        path: '',
+        component: () => import('@/views/home/index'),
+        name: 'home',
+        meta: { title: '首页', icon: 'dashboard', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    redirect: '/myActivity',
+    children: [
+      {
+        path: 'myActivity',
         component: () => import('@/views/myActivity/index'),
         name: 'myActivity',
         meta: { title: '我的活动', icon: 'dashboard', noCache: true }
@@ -70,9 +83,9 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '/activity_template',
+    path: '/activityTemplate',
     component: Layout,
-    redirect: '/activity_template/point',
+    redirect: '/activityTemplate/point',
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '活动模板',
@@ -83,15 +96,15 @@ export const constantRouterMap = [
       {
         path: 'point',
         component: () => import('@/views/activityTemplate/point/index'),
-        name: 'Guide',
+        name: 'activityTemplatePoint',
         meta: { title: '积分活动', icon: 'guide', noCache: true }
       }
     ]
   },
   {
-    path: '/data_dashboard',
+    path: '/dataDashboard',
     component: Layout,
-    redirect: '/data_dashboard/point',
+    redirect: '/dataDashboard/point',
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '数据看板',
@@ -102,15 +115,15 @@ export const constantRouterMap = [
       {
         path: 'point',
         component: () => import('@/views/dataDashboard/point/index'),
-        name: 'Guide',
+        name: 'dataDashboardPoint',
         meta: { title: '积分活动', icon: 'guide', noCache: true }
       }
     ]
   },
   {
-    path: '/prize_management',
+    path: '/prizeManagement',
     component: Layout,
-    redirect: '/prize_management/point',
+    redirect: '/prizeManagement/point',
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '奖品项管理',
@@ -141,7 +154,7 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
-  {
+  /* {
     path: '/permission',
     component: Layout,
     redirect: '/permission/index',
@@ -172,6 +185,6 @@ export const asyncRouterMap = [
       }
     ]
   },
-  /** When your routing table is too long, you can split it into small modules**/
-  { path: '*', redirect: '/404', hidden: true }
+  /!** When your routing table is too long, you can split it into small modules**!/
+  { path: '*', redirect: '/404', hidden: true }*/
 ]

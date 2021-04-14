@@ -1,6 +1,6 @@
 <template>
   <div class="app-container common-module-container">
-    奖品项管理 / 奖品兑换明细
+    欢迎使用MGS系统
   </div>
 </template>
 <script>

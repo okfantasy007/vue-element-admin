@@ -1,16 +1,15 @@
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item,index) in levelList" v-if="item.meta.title" :key="item.path">
-        <span v-if="item.redirect==='noredirect'||index==levelList.length-1" class="no-redirect">{{ generateTitle(item.meta.title) }}</span>
-        <a v-else @click.prevent="handleLink(item)">{{ generateTitle(item.meta.title) }}</a>
+      <el-breadcrumb-item v-for="(item, index) in levelList" :key="index">
+        <span v-if="item.redirect==='noredirect' || index == levelList.length-1" class="no-redirect">{{ item.meta.title }}</span>
+        <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
 </template>
 
 <script>
-import { generateTitle } from '@/utils/i18n'
 import pathToRegexp from 'path-to-regexp'
 
 export default {
@@ -20,7 +19,11 @@ export default {
     }
   },
   watch: {
-    $route() {
+    $route(route) {
+      // if you go to the redirect page, do not update the breadcrumbs
+      if (route.path.startsWith('/redirect/')) {
+        return
+      }
       this.getBreadcrumb()
     }
   },
@@ -28,18 +31,24 @@ export default {
     this.getBreadcrumb()
   },
   methods: {
-    generateTitle,
     getBreadcrumb() {
-      let matched = this.$route.matched.filter(item => {
-        if (item.name) {
-          return true
-        }
-      })
-      const first = matched[0]
-      if (first && first.name.trim().toLocaleLowerCase() !== 'myActivity'.toLocaleLowerCase()) {
-        matched = [{ path: '/my_activity', meta: { title: '首页' }}].concat(matched)
+      // only show routes with meta.title
+      // let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
+      // console.log(this.$route.matched)
+      // const first = matched[0]
+
+      // if (!this.isDashboard(first)) {
+      //     matched = [{ path: '/home', meta: { title: 'Dashboard' }}].concat(matched)
+      // }
+
+      this.levelList = this.$route.matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
+    },
+    isDashboard(route) {
+      const name = route && route.name
+      if (!name) {
+        return false
       }
-      this.levelList = matched
+      return name.trim().toLocaleLowerCase() === 'home'.toLocaleLowerCase()
     },
     pathCompile(path) {
       // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
@@ -59,12 +68,13 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style lang="scss" scoped>
   .app-breadcrumb.el-breadcrumb {
     display: inline-block;
     font-size: 14px;
     line-height: 50px;
-    margin-left: 10px;
+    margin-left: 8px;
+
     .no-redirect {
       color: #97a8be;
       cursor: text;
